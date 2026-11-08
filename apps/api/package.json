@@ -1,0 +1,21 @@
+{
+  "name": "@alp/api",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@alp/shared-types": "workspace:*",
+    "@supabase/supabase-js": "^2.45.6",
+    "hono": "^4.6.4"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241022.0",
+    "typescript": "^5.5.4",
+    "wrangler": "^3.83.0"
+  }
+}
+

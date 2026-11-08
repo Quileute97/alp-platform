@@ -1,0 +1,14 @@
+name = "alp-api"
+main = "src/index.ts"
+compatibility_date = "2024-10-22"
+
+[vars]
+ENVIRONMENT = "development"
+API_VERSION = "v1"
+
+# Secrets required in production:
+# SUPABASE_URL
+# SUPABASE_SERVICE_ROLE_KEY
+# ED25519_PRIVATE_KEY
+# WEBHOOK_SIGNING_SECRET
+

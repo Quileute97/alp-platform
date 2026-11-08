@@ -1,0 +1,19 @@
+{
+  "name": "alp-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ALP - Algo License Platform for cTrader automated trading products",
+  "scripts": {
+    "dev:web": "pnpm --filter @alp/web dev",
+    "build:web": "pnpm --filter @alp/web build",
+    "dev:api": "pnpm --filter @alp/api dev",
+    "build:api": "pnpm --filter @alp/api build",
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  }
+}
+
