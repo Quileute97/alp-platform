@@ -6,41 +6,27 @@ Cập nhật lần cuối: 2026-11-08
 
 | Giai đoạn | Trạng thái | Ghi chú |
 |---|---|---|
-| **PHASE 0: Repository Audit** | Hoàn thành | Đã kiểm tra môi trường, khởi tạo Git monorepo, tài liệu kiến trúc. |
-| **PHASE 1: Foundation** | Đang tiến hành | Database migrations, Shared Types, Frontend UI System, Auth, Product Catalog, Admin Area. |
-| **PHASE 2: Subscription** | Chưa bắt đầu | Orders, payment webhooks, subscription engine, renewal logic. |
-| **PHASE 3: License Engine** | Chưa bắt đầu | License generation, SHA-256 hash, Ed25519 response signing, API validation & heartbeat. |
-| **PHASE 4: cTrader Integration** | Chưa bắt đầu | Thư viện C# AlpLicenseManager, Sample cBot, bảo vệ vị thế khi hết hạn. |
-| **PHASE 5: Production** | Chưa bắt đầu | Trung tâm tải xuống bảo mật, giám sát, tối ưu hiệu năng. |
+| **PHASE 0: Repository Audit** | **HOÀN THÀNH** | Đã kiểm tra môi trường, khởi tạo Git monorepo, tài liệu kiến trúc. |
+| **PHASE 1: Foundation** | **HOÀN THÀNH & ĐÃ KIỂM CHỨNG** | Database migrations (Schema + RLS + Functions + Seed), Shared Types, Frontend 100% tiếng Việt, Role separation, Admin & Customer Portals, API Worker skeleton, AlpLicenseManager C# client. |
+| **PHASE 2: Subscription** | **SẴN SÀNG TRIỂN KHAI** | Orders, payment webhooks, subscription engine, renewal logic. |
+| **PHASE 3: License Engine** | Sắp tới | License generation, SHA-256 hash, Ed25519 response signing, API validation & heartbeat. |
+| **PHASE 4: cTrader Integration** | Sắp tới | Thư viện C# AlpLicenseManager, Sample cBot, bảo vệ vị thế khi hết hạn. |
+| **PHASE 5: Production** | Sắp tới | Trung tâm tải xuống bảo mật, giám sát, tối ưu hiệu năng. |
 
 ---
 
-## 2. Chi tiết Công việc Phase 0 & Phase 1
+## 2. Kết quả Xác Minh Kỹ Thuật Phase 1
 
-### Phase 0: Repository Audit (Đã hoàn thành)
-- [x] Kiểm tra workspace: Thư mục `TakeProfit` ban đầu là thư mục rỗng.
-- [x] Xác định môi trường hệ thống: Node v24.15.0, pnpm v10.33.2, .NET 10.0.204, Cloudflare Wrangler v4.123.0, cTrader Desktop 5.10 với `cAlgo.API.dll`.
-- [x] Khởi tạo Git repository và cấu hình Monorepo (pnpm workspaces).
-- [x] Khởi tạo tài liệu kiến trúc: `ARCHITECTURE.md`, `DATABASE.md`, `API.md`, `SECURITY.md`, `CTRADER_INTEGRATION.md`, `DEPLOYMENT.md`.
-
-### Phase 1: Foundation (Đang thực hiện)
-- [x] Thiết kế Schema PostgreSQL hoàn chỉnh (`supabase/migrations/01_initial_schema.sql`).
-- [x] Thiết lập Row Level Security và phân quyền chặt chẽ (`supabase/migrations/02_rls_policies.sql`).
-- [x] Hàm chức năng, trigger và logic cấp quyền (`supabase/migrations/03_functions_and_triggers.sql`).
-- [x] Seed data sản phẩm Algo & Plans (`supabase/seed.sql`).
-- [x] Gói kiểu dữ liệu dùng chung `@alp/shared-types` (Typechecked & Built).
-- [ ] Xây dựng ứng dụng Frontend (`apps/web`):
-  - [ ] Thiết lập Vite + React 18/19 + Tailwind CSS + Lucide Icons.
-  - [ ] Hệ thống Design System SaaS tài chính, hỗ trợ Dark/Light mode.
-  - [ ] 100% tiếng Việt cho toàn bộ Customer & Admin Interface.
-  - [ ] Xác thực người dùng (Auth Context, Đăng nhập, Đăng ký, Quản lý phiên).
-  - [ ] Giao diện Khách hàng (Catalog sản phẩm, Chi tiết sản phẩm, Dashboard).
-  - [ ] Giao diện Admin (Quản trị sản phẩm, Khách hàng, Phân quyền role).
-- [ ] Thiết lập Backend API Worker (`apps/api`):
-  - [ ] Cấu hình Cloudflare Worker, TypeScript, Hono router.
-  - [ ] Public routes `/api/v1/products`, `/api/v1/products/:slug`.
-  - [ ] Ed25519 cryptographic helpers skeleton.
-- [ ] Kiểm thử và xác minh Phase 1:
-  - [ ] TypeScript check cho cả monorepo.
-  - [ ] Chạy frontend dev server kiểm tra giao diện.
-
+1. **TypeScript Typecheck**:
+   - `packages/shared-types`: `tsc --noEmit` đạt 100% không lỗi.
+   - `apps/api`: `tsc --noEmit` đạt 100% không lỗi.
+   - `apps/web`: `tsc --noEmit` đạt 100% không lỗi.
+2. **Frontend Production Build**:
+   - `apps/web`: `vite build` tạo ra bundle hoàn chỉnh (`dist/index.html`, `dist/assets/index-*.css`, `dist/assets/index-*.js`) trong 24 giây.
+3. **C# Library Build**:
+   - `ctrader/AlpLicenseManager`: `dotnet build` đạt 0 Warning(s), 0 Error(s) (tương thích `netstandard2.0` / .NET 6+ trên cTrader Desktop).
+4. **Phân quyền & Truy cập (Access Control Separation)**:
+   - Route guard phân tách chặt chẽ giữa Customer Portal (`/`, `/products`, `/dashboard`, `/licenses`, `/accounts`, v.v.) và Admin Control Center (`/admin`, `/admin/products`, `/admin/licenses`, `/admin/customers`, v.v.).
+   - RLS Policies thiết lập cho 100% các bảng dữ liệu Supabase, chặn khách hàng tự sửa vai trò hoặc đọc dữ liệu người khác.
+5. **Ngôn ngữ Giao diện**:
+   - 100% tiếng Việt cho toàn bộ Customer Portal và Admin Dashboard theo đúng yêu cầu đề bài.
