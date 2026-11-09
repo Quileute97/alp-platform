@@ -277,6 +277,21 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.setItem('alp_products', JSON.stringify(products));
   }, [products]);
 
+  // Fetch live products from API on mount with graceful fallback
+  useEffect(() => {
+    const apiBase = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+    fetch(`${apiBase}/products`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+          setProducts(data.data);
+        }
+      })
+      .catch(() => {
+        // Fall back gracefully to local storage or initial products
+      });
+  }, []);
+
   useEffect(() => {
     localStorage.setItem('alp_accounts', JSON.stringify(accounts));
   }, [accounts]);
