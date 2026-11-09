@@ -1,6 +1,6 @@
 # ALP – Algo License Platform: Development Status
 
-Cập nhật lần cuối: 2026-11-08
+Cập nhật lần cuối: 2026-11-09
 
 ## 1. Tiến độ Tổng quan
 
@@ -8,6 +8,7 @@ Cập nhật lần cuối: 2026-11-08
 |---|---|---|
 | **PHASE 0: Repository Audit** | **HOÀN THÀNH** | Đã kiểm tra môi trường, khởi tạo Git monorepo, tài liệu kiến trúc. |
 | **PHASE 1: Foundation** | **HOÀN THÀNH & ĐÃ KIỂM CHỨNG** | Database migrations (Schema + RLS + Functions + Seed), Shared Types, Frontend 100% tiếng Việt, Role separation, Admin & Customer Portals, API Worker skeleton, AlpLicenseManager C# client. |
+| **CẢI TIẾN SEO & UI CLOUDFLARE** | **HOÀN THÀNH & ĐÃ DEPLOY THÀNH CÔNG** | Robots.txt, Sitemap.xml, SEO Meta Tags, Schema.org JSON-LD, Frontend Catalog, Chi tiết sản phẩm, License Key Validator trực tuyến, Giám sát Heartbeat, Custom 404. |
 | **PHASE 2: Subscription** | **SẴN SÀNG TRIỂN KHAI** | Orders, payment webhooks, subscription engine, renewal logic. |
 | **PHASE 3: License Engine** | Sắp tới | License generation, SHA-256 hash, Ed25519 response signing, API validation & heartbeat. |
 | **PHASE 4: cTrader Integration** | Sắp tới | Thư viện C# AlpLicenseManager, Sample cBot, bảo vệ vị thế khi hết hạn. |
@@ -15,18 +16,15 @@ Cập nhật lần cuối: 2026-11-08
 
 ---
 
-## 2. Kết quả Xác Minh Kỹ Thuật Phase 1
+## 2. Danh Sách Endpoint Đang Hoạt Động (Verified Live)
 
-1. **TypeScript Typecheck**:
-   - `packages/shared-types`: `tsc --noEmit` đạt 100% không lỗi.
-   - `apps/api`: `tsc --noEmit` đạt 100% không lỗi.
-   - `apps/web`: `tsc --noEmit` đạt 100% không lỗi.
-2. **Frontend Production Build**:
-   - `apps/web`: `vite build` tạo ra bundle hoàn chỉnh (`dist/index.html`, `dist/assets/index-*.css`, `dist/assets/index-*.js`) trong 24 giây.
-3. **C# Library Build**:
-   - `ctrader/AlpLicenseManager`: `dotnet build` đạt 0 Warning(s), 0 Error(s) (tương thích `netstandard2.0` / .NET 6+ trên cTrader Desktop).
-4. **Phân quyền & Truy cập (Access Control Separation)**:
-   - Route guard phân tách chặt chẽ giữa Customer Portal (`/`, `/products`, `/dashboard`, `/licenses`, `/accounts`, v.v.) và Admin Control Center (`/admin`, `/admin/products`, `/admin/licenses`, `/admin/customers`, v.v.).
-   - RLS Policies thiết lập cho 100% các bảng dữ liệu Supabase, chặn khách hàng tự sửa vai trò hoặc đọc dữ liệu người khác.
-5. **Ngôn ngữ Giao diện**:
-   - 100% tiếng Việt cho toàn bộ Customer Portal và Admin Dashboard theo đúng yêu cầu đề bài.
+- **Domain Cloudflare**: `https://alp-platform.drminhdat-work.workers.dev`
+- **Trang chủ & Kho cBot (`/` & `/products`)**: `200 OK` (Render HTML đầy đủ 4 cBot/Indicator, pricing preview, responsive cards).
+- **Chi tiết sản phẩm (`/products/gbpusd-alchemist-cbot`)**: `200 OK` (Chiến lược London Breakout, Schema.org JSON-LD Product, bảng giá $49 - $899).
+- **Kiểm tra License Key (`/license/validate`)**: `200 OK` (Công cụ test trực tuyến xác thực chữ ký Ed25519/HMAC).
+- **Giám sát Heartbeat (`/license/heartbeat`)**: `200 OK` (Monitor tín hiệu kết nối thời gian thực cTrader Desktop).
+- **SEO Robots (`/robots.txt`)**: `200 OK` (`Allow: /`, `Disallow: /api/v1/customer/`, `Disallow: /api/v1/admin/`, liên kết sitemap).
+- **SEO Sitemap (`/sitemap.xml`)**: `200 OK` (XML chuẩn hóa danh mục URL, lastmod, priority).
+- **API Health Check (`/api/v1/health`)**: `200 OK` (`{"status":"healthy","version":"1.0.0"}`).
+- **API Products (`/api/v1/products`)**: `200 OK` (Dữ liệu JSON 4 sản phẩm Algo).
+- **Trang 404 tùy chỉnh (`/*`)**: `404 Not Found` (Giao diện Dark Mode hướng dẫn quay về trang chủ).
