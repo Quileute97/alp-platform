@@ -10,3 +10,4 @@ Thư mục này chứa module tích hợp bản quyền độc lập cho các ro
 - Khi license hết hạn: Robot chỉ chuyển cờ `CanOpenNewPositions = false`.
 - **Tuyệt đối không đóng lệnh tự động**: Robot không bao giờ gọi hàm `ClosePosition()` hàng loạt khi bản quyền hết hạn để bảo vệ an toàn tối đa cho tài khoản khách hàng.
 - Quyền truy cập: Yêu cầu khai báo `AccessRights = AccessRights.FullAccess` trên cTrader để thực hiện outbound HTTPS request.
+

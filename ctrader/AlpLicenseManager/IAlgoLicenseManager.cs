@@ -40,3 +40,4 @@ namespace Alp.LicenseClient
         bool CanOpenNewPositions { get; }
     }
 }
+
