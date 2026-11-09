@@ -5,9 +5,11 @@
   "description": "ALP - Algo License Platform for cTrader automated trading products",
   "scripts": {
     "dev:web": "pnpm --filter @alp/web dev",
-    "build:web": "pnpm --filter @alp/web build",
+    "build:web": "pnpm --filter @alp/shared-types build && pnpm --filter @alp/web build",
     "dev:api": "pnpm --filter @alp/api dev",
     "build:api": "pnpm --filter @alp/api build",
+    "deploy:api": "npx wrangler deploy --config apps/api/wrangler.toml",
+    "deploy": "npx wrangler deploy --config apps/api/wrangler.toml",
     "build": "pnpm -r build",
     "test": "pnpm -r test",
     "typecheck": "pnpm -r typecheck"
