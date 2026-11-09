@@ -133,8 +133,60 @@ const mockPlans: Record<string, ProductPlan[]> = {
 };
 
 // ==========================================
-// 1. Health & Status
+// 1. Root & Health Status
 // ==========================================
+app.get('/', (c) => {
+  return c.html(`<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALP API – Algo License Platform</title>
+  <style>
+    body { background: #0B0F17; color: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 40px 20px; line-height: 1.6; }
+    .container { max-width: 750px; margin: 0 auto; background: #111827; border: 1px solid #1F2937; border-radius: 16px; padding: 32px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+    h1 { color: #60A5FA; margin-top: 0; font-size: 22px; }
+    .badge { display: inline-block; background: rgba(16, 185, 129, 0.15); color: #34D399; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: bold; border: 1px solid rgba(16, 185, 129, 0.3); }
+    ul { list-style: none; padding-left: 0; }
+    li { margin-bottom: 12px; }
+    a { color: #38BDF8; text-decoration: none; font-weight: 500; font-family: monospace; }
+    a:hover { text-decoration: underline; }
+    .method { display: inline-block; width: 55px; font-size: 11px; font-weight: bold; padding: 2px 6px; border-radius: 4px; text-align: center; }
+    .get { background: rgba(59, 130, 246, 0.2); color: #60A5FA; }
+    .post { background: rgba(16, 185, 129, 0.2); color: #34D399; }
+    .card { background: #0F172A; border: 1px solid #1E293B; border-radius: 8px; padding: 16px; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+      <h1>ALP – Algo License Platform API</h1>
+      <span class="badge">● Online (Edge Active)</span>
+    </div>
+    <p style="font-size: 14px; color: #94A3B8;">Hệ thống Backend Edge API quản lý bản quyền, xác thực mật mã Ed25519 và phân phối cBot/Indicator cho cTrader Desktop.</p>
+    
+    <div class="card">
+      <div style="font-size: 13px; font-weight: bold; color: #F8FAFC; margin-bottom: 12px;">Các Endpoint Sẵn Sàng Phục Vụ:</div>
+      <ul>
+        <li><span class="method get">GET</span> <a href="/api/v1/health">/api/v1/health</a> — Kiểm tra trạng thái máy chủ (Health Check)</li>
+        <li><span class="method get">GET</span> <a href="/api/v1/products">/api/v1/products</a> — Danh mục sản phẩm Algo cBot & Indicator</li>
+        <li><span class="method get">GET</span> <a href="/api/v1/products/gbpusd-alchemist-cbot">/api/v1/products/gbpusd-alchemist-cbot</a> — Chi tiết sản phẩm Alchemist Bot</li>
+        <li><span class="method post">POST</span> <span style="font-family: monospace; color:#E2E8F0;">/api/v1/license/validate</span> — Xác thực bản quyền từ cTrader cBot</li>
+        <li><span class="method post">POST</span> <span style="font-family: monospace; color:#E2E8F0;">/api/v1/license/heartbeat</span> — Heartbeat duy trì kết nối bot</li>
+      </ul>
+    </div>
+    <div style="margin-top: 24px; font-size: 11px; color: #64748B;">
+      ALP Version 1.0.0 • Cloudflare Workers • Supabase PostgreSQL • cTrader Automate Desktop
+    </div>
+  </div>
+</body>
+</html>`);
+});
+
+app.get('/api', (c) => {
+  return c.redirect('/');
+});
+
 app.get('/api/v1/health', (c) => {
   return c.json({
     status: 'healthy',
